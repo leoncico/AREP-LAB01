@@ -39,7 +39,6 @@ class ClientHandler implements Runnable {
                 out.println();
                 out.println(AREP.services.get("listExerciseService").response(fileRequested));
             }
-
             
             else if (method.equals("POST") && fileRequested.startsWith("/app/addExercise")){
                 out.println("HTTP/1.1 200 OK");
@@ -47,8 +46,6 @@ class ClientHandler implements Runnable {
                 out.println();
                 out.println(AREP.services.get("addExercise").response(fileRequested));
             }
-            // Agregar metodo post
-
  
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,161 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Exercise Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        #message {
-            text-align: center;
-            margin-top: 20px;
-            color: #28a745;
-            font-size: 18px;
-        }
-
-        #exerciseList {
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #exerciseList ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #exerciseList li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #exerciseList li:last-child {
-            border-bottom: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Gym Exercise Tracker</h1>
-    <form id="exerciseForm">
-        <label for="name">Exercise Name:</label>
-        <input type="text" id="name" name="name" required>
+    
+    <div class="background">
+        <form id="exerciseForm">
+            <h1>Registro de Rutina</h1>
+            <label for="name">Nombre del Ejercicio:</label>
+            <input type="text" id="name" name="name" required>
 
-        <label for="series">Number of Series:</label>
-        <input type="number" id="series" name="series" required min="1">
+            <label for="series">Numero de Series:</label>
+            <input type="number" id="series" name="series" required min="1">
 
-        <button type="submit">Add Exercise</button>
-    </form>
+            <button type="submit">Añadir</button>
+        </form>
 
-    <div id="message"></div>
+        <div id="message"></div>
 
-    <div id="exerciseList">
-        <h2>Exercises:</h2>
-        <ul id="exerciseItems"></ul>
+        <div id="exerciseList">
+            <h2>Tu Rutina:</h2>
+            <ul id="exerciseItems"></ul>
+        </div>
     </div>
-
-    <script>
-        document.getElementById('exerciseForm').addEventListener('submit', loadPostMsg);
-
-    function loadPostMsg(event) {
-        event.preventDefault(); // Prevenir la recarga de la página
-
-        const name = document.getElementById('name').value;
-        const series = document.getElementById('series').value;
-        let url = `/app/addExercise?name=${encodeURIComponent(name)}&series=${encodeURIComponent(series)}`;
-
-        fetch(url, { method: 'POST' })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json(); // Parsear la respuesta como JSON
-            })
-            .then(data => {
-                document.getElementById('message').innerText = `Exercise ${data.name} added successfully!`;
-                fetchExercises(); // Actualizar la lista de ejercicios
-            })
-            .catch(error => {
-                console.error("Error adding exercise:", error);
-                document.getElementById('message').innerText = 'Error adding exercise.';
-            }); 
-    }
-
-
-    function fetchExercises() {
-    console.log("Fetching exercises..."); // Verificar si se llama a la función
-    fetch('/app/exercises')
-        .then(response => {
-            console.log("Response status:", response.status); // Mostrar el estado de la respuesta
-            return response.json();
-        })
-        .then(data => {
-            console.log("Data received:", data); // Mostrar los datos recibidos
-            let exerciseItems = document.getElementById('exerciseItems');
-            exerciseItems.innerHTML = ''; // Limpiar la lista antes de actualizarla
-            data.exercises.forEach(exercise => {
-                let li = document.createElement('li');
-                li.textContent = `Name: ${exercise.name}, Series: ${exercise.series}`;
-                exerciseItems.appendChild(li);
-            });
-        })
-        .catch(error => {
-            console.error('Error al cargar los ejercicios:', error);
-            document.getElementById('message').innerText = 'Error al cargar los ejercicios.';
-        });
-}
-
-        // Cargar la lista de ejercicios al cargar la página
-        window.onload = fetchExercises();
-    </script>
+    <script src="rutine.js"></script>
 </body>
 </html>
